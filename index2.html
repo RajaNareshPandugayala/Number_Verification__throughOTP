@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Verification with OTP</title>
+
+    <!-- Firebase Authentication -->
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-auth.js"></script>
+
+    <!-- Firebase Recaptcha Library -->
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-recaptcha.js"></script>
+
+    <style>
+        .container {
+            width: 301px;
+            height: 175px;
+            position: absolute;
+            left: 0px;
+            right: 0px;
+            top: 0px;
+            bottom: 0px;
+            margin: auto;
+        }
+
+        #number,
+        #verificationcode {
+            width: calc(100% - 24px);
+            padding: 10px;
+            font-size: 20px;
+            margin-bottom: 5px;
+            outline: none;
+        }
+
+        #recaptcha-container {
+            margin-bottom: 5px;
+        }
+
+        #send,
+        #verify {
+            width: 100%;
+            height: 40px;
+            outline: none;
+        }
+
+        .p-conf,
+        .n-conf {
+            width: calc(100% - 22px);
+            border: 2px solid green;
+            border-radius: 4px;
+            padding: 8px 10px;
+            margin: 4px 0px;
+            background-color: rgba(0, 249, 12, 0.5);
+            display: none;
+        }
+
+        .n-conf {
+            border-color: red;
+            background-color: rgba(255, 0, 4, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="sender">
+            <input type="text" id="number" placeholder="+91987...">
+            <div id="recaptcha-container"></div>
+            <input type="button" id="send" value="Send">
+        </div>
+        <div id="verifier" style="display: none;">
+            <input type="text" id="verificationcode" placeholder="OTP Code">
+            <input type="button" id="verify" value="Verify">
+            <div class="p-conf">Number Verifired</div>
+            <div class="n-conf">OTP ERROR</div>
+        </div>
+    </div>
+</body>
+
+<!-- add firebase SDK -->
+<!-- <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script> -->
+
+<script>
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+        apiKey: "AIzaSyDOfvT4Pgn9INWc4HRaTd4dOjkfd3fjGkw",
+        authDomain: "rn-project-838bb.firebaseapp.com",
+        projectId: "rn-project-838bb",
+        storageBucket: "rn-project-838bb.appspot.com",
+        messagingSenderId: "530054319851",
+        appId: "1:530054319851:web:013777678e2f5dbe3538ae",
+        measurementId: "G-07LRXWB7JY"
+    };
+
+     firebase.initializeApp(firebaseConfig);
+
+
+     // Reference to the Firebase auth service
+        const auth = firebase.auth();
+
+        // Function to send OTP
+        function phoneAuth() {
+            const phoneNumber = document.getElementById('number').value;
+            const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+
+            auth.signInWithPhoneNumber(phoneNumber, appVerifier)
+                .then((confirmationResult) => {
+                    window.confirmationResult = confirmationResult;
+                    document.getElementById('sender').style.display = 'none';
+                    document.getElementById('verifier').style.display = 'block';
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+
+        // Function to verify OTP
+        function codeverify() {
+            const code = document.getElementById('verificationcode').value;
+
+            confirmationResult.confirm(code)
+                .then((result) => {
+                    // Phone number successfully verified
+                    document.getElementById('verifier').style.display = 'none';
+                    document.querySelector('.p-conf').style.display = 'block';
+                })
+                .catch((error) => {
+                    // OTP verification failed
+                    console.error(error);
+                    document.querySelector('.n-conf').style.display = 'block';
+                });
+        }
+
+</script>
+
+<script src="index.js"></script>
+</html>

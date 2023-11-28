@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Verification with OTP</title>
+    <style>
+        .container {
+            width: 301px;
+            height: 175px;
+            position: absolute;
+            left: 0px;
+            right: 0px;
+            top: 0px;
+            bottom: 0px;
+            margin: auto;
+        }
+
+        #number,
+        #verificationcode {
+            width: calc(100% - 24px);
+            padding: 10px;
+            font-size: 20px;
+            margin-bottom: 5px;
+            outline: none;
+        }
+
+        #recaptcha-container {
+            margin-bottom: 5px;
+        }
+
+        #send,
+        #verify {
+            width: 100%;
+            height: 40px;
+            outline: none;
+        }
+
+        .p-conf,
+        .n-conf {
+            width: calc(100% - 22px);
+            border: 2px solid green;
+            border-radius: 4px;
+            padding: 8px 10px;
+            margin: 4px 0px;
+            background-color: rgba(0, 249, 12, 0.5);
+            display: none;
+        }
+
+        .n-conf {
+            border-color: red;
+            background-color: rgba(255, 0, 4, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="sender">
+            <input type="text" id="number" placeholder="+91987...">
+            <div id="recaptcha-container"></div>
+            <input type="button" id="send" value="Send">
+        </div>
+        <div id="verifier" style="display: none;">
+            <input type="text" id="verificationcode" placeholder="OTP Code">
+            <input type="button" id="verify" value="Verify" onclick="codeverify()">
+            <div class="p-conf">Number Verifired</div>
+            <div class="n-conf">OTP ERROR</div>
+        </div>
+    </div>
+
+</body>
+
+<!-- <script src="./twilio-otp/server.js"></script> -->
+<script src="server.js"></script>
+
+</html>
